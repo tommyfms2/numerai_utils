@@ -29,7 +29,7 @@ def refinePreds(predsDatas):
     return finalPreds
 
 def mean_ensemble(predsDatas):
-    finalPreds = predsDatas.mean(axis=0)
+    finalPreds = np.array(predsDatas).mean(axis=0)
     return finalPreds
 
 
