@@ -6,9 +6,9 @@ import numpy as np
 
 def csvpath2npdatas(train_path, valid_path, forChainer=False, forPytorch=False):
     train_datas = []
-    train_targets = []
+    train_targets = [[],[],[],[],[]]
     valid_datas = []
-    valid_targets = []
+    valid_targets = [[],[],[],[],[]]
     ids = []
     test_datas = []
     live_datas = []
@@ -19,8 +19,12 @@ def csvpath2npdatas(train_path, valid_path, forChainer=False, forPytorch=False):
         header = next(reader)
 
         for row in reader:
-            train_datas.append(row[3:-1])
-            train_targets.append(row[-1])
+            train_datas.append(row[3:-5])
+            train_targets[0].append(row[-5])
+            train_targets[1].append(row[-4])
+            train_targets[2].append(row[-3])
+            train_targets[3].append(row[-2])
+            train_targets[4].append(row[-1])
 
     with open(valid_path, 'r') as f:
         reader = csv.reader(f)
@@ -29,12 +33,17 @@ def csvpath2npdatas(train_path, valid_path, forChainer=False, forPytorch=False):
             ids.append(row[0])
             eras.append(row[1])
             if row[2]=='validation':
-                valid_datas.append(row[3:-1])
-                valid_targets.append(row[-1])
+                valid_datas.append(row[3:-5])
+                valid_targets[0].append(row[-5])
+                valid_targets[1].append(row[-4])
+                valid_targets[2].append(row[-3])
+                valid_targets[3].append(row[-2])
+                valid_targets[4].append(row[-1])
+
             elif row[2]=='test':
-                test_datas.append(row[3:-1])
+                test_datas.append(row[3:-5])
             else:
-                live_datas.append(row[3:-1])
+                live_datas.append(row[3:-5])
 
     if forChainer:
         train_datas = np.array(train_datas, dtype=np.float32)
@@ -50,4 +59,5 @@ def csvpath2npdatas(train_path, valid_path, forChainer=False, forPytorch=False):
         valid_targets = np.array(valid_targets, dtype=np.int64)
         test_datas = np.array(test_datas, dtype=np.float32)
         live_datas = np.array(live_datas, dtype=np.float32)
+    
     return train_datas, train_targets, valid_datas, valid_targets, ids, test_datas, live_datas, eras

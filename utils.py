@@ -29,7 +29,9 @@ def refinePreds(predsDatas):
     return finalPreds
 
 def mean_ensemble(predsDatas):
-    finalPreds = np.array(predsDatas).mean(axis=0)
+    npPredsDatas = np.array(predsDatas, dtype=np.float32)
+    print(npPredsDatas.shape)
+    finalPreds = npPredsDatas.mean(axis=0)
     return finalPreds
 
 
@@ -67,9 +69,9 @@ def getConsystancy(preds, targets, eras):
     return consistancy
 
 
-def saveProbability(filename, ids, finalPreds):
+def saveProbability(filename, ids, finalPreds, firstraw=['id', 'probability']):
     mat2d = []
-    mat2d.append(['id','probability'])
+    mat2d.append(firstraw)
     for (id, pred) in zip(ids, finalPreds):
         mat2d.append([id,pred])
     with open(str(filename)+'.csv', 'w') as f:
