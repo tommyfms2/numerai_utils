@@ -39,6 +39,7 @@ def getLogloss(preds, targets):
     s = 0
     eps = 1e-15
     preds = np.array(preds, dtype=np.float32)
+    targets = np.array(targets, dtype=np.float32)
     targets = np.array(targets, dtype=np.int32)
     preds = np.clip(preds, eps, 1-eps)
 
