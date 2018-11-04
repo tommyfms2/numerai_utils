@@ -47,15 +47,19 @@ def csvpath2npdatas(train_path, valid_path, forChainer=False, forPytorch=False):
 
     if forChainer:
         train_datas = np.array(train_datas, dtype=np.float32)
+        train_targets = np.array(train_targets, dtype=np.float32)
         train_targets = np.array(train_targets, dtype=np.int32)
         valid_datas = np.array(valid_datas, dtype=np.float32)
+        valid_targets = np.array(valid_targets, dtype=np.float32)
         valid_targets = np.array(valid_targets, dtype=np.int32)
         test_datas = np.array(test_datas, dtype=np.float32)
         live_datas = np.array(live_datas, dtype=np.float32)
     if forPytorch:
         train_datas = np.array(train_datas, dtype=np.float32)
+        train_targets = np.array(train_targets, dtype=np.float32)
         train_targets = np.array(train_targets, dtype=np.int64)
         valid_datas = np.array(valid_datas, dtype=np.float32)
+        valid_targets = np.array(valid_targets, dtype=np.float32)
         valid_targets = np.array(valid_targets, dtype=np.int64)
         test_datas = np.array(test_datas, dtype=np.float32)
         live_datas = np.array(live_datas, dtype=np.float32)
