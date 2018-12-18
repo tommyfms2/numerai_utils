@@ -4,11 +4,13 @@ import os
 import csv
 import numpy as np
 
-def csvpath2npdatas(train_path, valid_path, forChainer=False, forPytorch=False):
+def csvpath2npdatas(train_path, valid_path, nop=5, forChainer=False, forPytorch=False):
     train_datas = []
-    train_targets = [[],[],[],[],[]]
+    # train_targets = [[],[],[],[],[]]
+    train_targets = [[] for _ in range(nop)]
     valid_datas = []
-    valid_targets = [[],[],[],[],[]]
+    # valid_targets = [[],[],[],[],[]]
+    valid_targets = [[] for _ in range(nop)]
     ids = []
     test_datas = []
     live_datas = []
@@ -19,12 +21,14 @@ def csvpath2npdatas(train_path, valid_path, forChainer=False, forPytorch=False):
         header = next(reader)
 
         for row in reader:
-            train_datas.append(row[3:-5])
-            train_targets[0].append(row[-5])
-            train_targets[1].append(row[-4])
-            train_targets[2].append(row[-3])
-            train_targets[3].append(row[-2])
-            train_targets[4].append(row[-1])
+            train_datas.append(row[3:-nop])
+            for i in range(nop):
+                train_targets[i].append(row[-nop+i])
+            # train_targets[0].append(row[-5])
+            # train_targets[1].append(row[-4])
+            # train_targets[2].append(row[-3])
+            # train_targets[3].append(row[-2])
+            # train_targets[4].append(row[-1])
 
     with open(valid_path, 'r') as f:
         reader = csv.reader(f)
@@ -33,17 +37,19 @@ def csvpath2npdatas(train_path, valid_path, forChainer=False, forPytorch=False):
             ids.append(row[0])
             eras.append(row[1])
             if row[2]=='validation':
-                valid_datas.append(row[3:-5])
-                valid_targets[0].append(row[-5])
-                valid_targets[1].append(row[-4])
-                valid_targets[2].append(row[-3])
-                valid_targets[3].append(row[-2])
-                valid_targets[4].append(row[-1])
+                valid_datas.append(row[3:-nop])
+                for i in range(nop):
+                    valid_targets[i].append(row[-nop+i])
+                # valid_targets[0].append(row[-5])
+                # valid_targets[1].append(row[-4])
+                # valid_targets[2].append(row[-3])
+                # valid_targets[3].append(row[-2])
+                # valid_targets[4].append(row[-1])
 
             elif row[2]=='test':
-                test_datas.append(row[3:-5])
+                test_datas.append(row[3:-nop])
             else:
-                live_datas.append(row[3:-5])
+                live_datas.append(row[3:-nop])
 
     if forChainer:
         train_datas = np.array(train_datas, dtype=np.float32)
